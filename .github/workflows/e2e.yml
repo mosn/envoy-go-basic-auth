@@ -1,0 +1,35 @@
+name: e2e
+on: [pull_request, push]
+
+jobs:
+  e2e-authorized:
+    runs-on: ubuntu-latest
+    env:
+      GODEBUG: cgocheck=0
+      ENVOY_VERSION: v1.26.2
+      GO_VERSION: 1.19
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: build
+        run: |
+          make build
+          sudo mkdir -p /etc/envoy
+          sudo cp libgolang.so /etc/envoy/libgolang.so
+
+      - name: envoy
+        run: |
+          curl -L -o envoy https://github.com/envoyproxy/envoy/releases/download/${ENVOY_VERSION}/envoy-contrib-x86_64
+          chmod +x envoy
+          sudo cp envoy /usr/bin/envoy
+          sudo chmod +x /usr/bin/envoy
+
+      - name: test
+        run: |
+          go test test/e2e_authorized_test.go test/common.go
