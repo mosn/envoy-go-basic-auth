@@ -29,12 +29,8 @@ static_resources:
                             users:
                               - username: "foo"
                                 password: "bar"
-                                expire: 10
-                                uint: "minute"
                               - username: "lobby"
                                 password: "niu"
-                                expire : 30
-                                uint: "second"
 
                   - name: envoy.filters.http.router
                     typed_config:

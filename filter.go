@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/base64"
 	"strings"
-	"time"
 
 	"github.com/envoyproxy/envoy/contrib/golang/filters/http/source/go/pkg/api"
 )
@@ -19,7 +18,7 @@ const secretKey = "secret"
 // "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==" returns ("Aladdin", "open sesame", true).
 func parseBasicAuth(auth string) (username, password string, ok bool) {
 	const prefix = "Basic "
-	// Case insensitive prefix match. See Issue 22736.
+	// Case insensitive prefix match. See https://github.com/golang/go/issues/22736.
 	if len(auth) < len(prefix) || !strings.EqualFold(auth[:len(prefix)], prefix) {
 		return "", "", false
 	}
@@ -40,14 +39,10 @@ func (f *filter) verify(header api.RequestHeaderMap) (bool, string) {
 	if !ok {
 		return false, "no Authorization"
 	}
-	//username, password, ok := parseBasicAuth(auth)
 	username, password, ok := parseBasicAuth(auth)
 	if !ok {
 		return false, "invalid Authorization format"
 	}
-
-	now := time.Now()
-	duration := now.Sub(Start)
 
 	users := f.config.users
 	for _, user := range users {
@@ -56,30 +51,6 @@ func (f *filter) verify(header api.RequestHeaderMap) (bool, string) {
 		}
 		if user.Password != password {
 			break
-		}
-
-		var expire time.Duration
-
-		switch user.Uint {
-		case "Nanosecond":
-			expire = time.Duration(user.Expire) * time.Nanosecond
-		case "Microsecond":
-			expire = time.Duration(user.Expire) * time.Microsecond
-		case "Millisecond":
-			expire = time.Duration(user.Expire) * time.Millisecond
-		case "Second":
-			expire = time.Duration(user.Expire) * time.Second
-		case "Minute":
-			expire = time.Duration(user.Expire) * time.Minute
-		case "Hour":
-			expire = time.Duration(user.Expire) * time.Hour
-		default:
-			//default uint is Second
-			expire = time.Duration(user.Expire) * time.Second
-		}
-
-		if duration > expire {
-			return false, "what took u so long"
 		}
 
 		return true, ""
