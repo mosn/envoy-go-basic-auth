@@ -100,7 +100,7 @@ static_resources:
 
 }
 
-func startEnvoyContainer(users []User) {
+func startEnvoy(users []User) {
 	generateEnvoyConfig(users)
 	var err error
 	cmd := exec.Command("cat", "envoy.yaml")

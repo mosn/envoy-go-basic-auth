@@ -15,7 +15,7 @@ func init() {
 }
 
 type config struct {
-	users []User
+	users map[string]string
 }
 
 type User struct {
@@ -47,10 +47,21 @@ func (p *parser) Parse(any *anypb.Any) (interface{}, error) {
 			return conf, err
 		}
 
-		conf.users = users
+		conf.users = paresUser2Map(&users)
 	}
 
 	return conf, nil
+}
+
+func paresUser2Map(users *[]User) map[string]string {
+	userMap := make(map[string]string)
+	for _, user := range *users {
+		if user.Username == "" {
+			continue
+		}
+		userMap[user.Username] = user.Password
+	}
+	return userMap
 }
 
 func (p *parser) Merge(parent interface{}, child interface{}) interface{} {
@@ -59,9 +70,15 @@ func (p *parser) Merge(parent interface{}, child interface{}) interface{} {
 
 	newConfig := *parentConfig
 	if childConfig.users != nil {
-		newConfig.users = childConfig.users
+		mergeUserMap(newConfig.users, childConfig.users)
 	}
 	return &newConfig
+}
+
+func mergeUserMap(new, child map[string]string) {
+	for username, password := range child {
+		new[username] = password
+	}
 }
 
 func configFactory(c interface{}) api.StreamFilterFactory {

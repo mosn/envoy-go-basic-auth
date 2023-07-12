@@ -17,3 +17,4 @@ test:
 	curl -s -I 'http://localhost:10000/'
 	curl -s -I 'http://localhost:10000/' -H 'Authorization: basic Zm9vOmJhcg=='
 	curl -s -I 'http://localhost:10000/' -H 'Authorization: basic bG9iYnk6bml1'
+

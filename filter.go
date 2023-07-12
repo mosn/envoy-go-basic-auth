@@ -45,18 +45,15 @@ func (f *filter) verify(header api.RequestHeaderMap) (bool, string) {
 	}
 
 	users := f.config.users
-	for _, user := range users {
-		if user.Username != username {
-			continue
-		}
-		if user.Password != password {
-			break
-		}
-
-		return true, ""
+	val, ok := users[username]
+	if !ok {
+		return false, "User not found"
+	}
+	if password != val {
+		return false, "invalid username or password"
 	}
 
-	return false, "invalid username or password"
+	return true, ""
 }
 
 func (f *filter) DecodeHeaders(header api.RequestHeaderMap, endStream bool) api.StatusType {

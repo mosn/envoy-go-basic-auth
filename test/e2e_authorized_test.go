@@ -18,7 +18,7 @@ func TestAuthorized(t *testing.T) {
 			Password: "niu",
 		},
 	}
-	go startEnvoyContainer(users)
+	go startEnvoy(users)
 	time.Sleep(5 * time.Second)
 
 	//Unauthorized
