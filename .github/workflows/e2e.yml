@@ -26,10 +26,9 @@ jobs:
       - name: envoy
         run: |
           curl -L -o envoy https://github.com/envoyproxy/envoy/releases/download/${ENVOY_VERSION}/envoy-contrib-x86_64
-          chmod +x envoy
           sudo cp envoy /usr/bin/envoy
           sudo chmod +x /usr/bin/envoy
 
       - name: test
         run: |
-          go test test/e2e_authorized_test.go test/common.go
+          go test ./test
