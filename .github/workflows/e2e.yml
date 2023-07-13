@@ -5,7 +5,6 @@ jobs:
   e2e-authorized:
     runs-on: ubuntu-latest
     env:
-      GODEBUG: cgocheck=0
       ENVOY_VERSION: v1.26.2
       GO_VERSION: 1.19
     steps:

@@ -111,6 +111,7 @@ func startEnvoy(users []User) {
 		panic(fmt.Sprintf("failed to cat envoy.yaml: %v", err))
 	}
 
+	cmd.Env = append(os.Environ(), "GODEBUG=cgocheck=0")
 	err = exec.Command("bash", "-c", "envoy -c envoy.yaml &").Run()
 	if err != nil {
 		panic(fmt.Sprintf("failed to start envoy: %v", err))
