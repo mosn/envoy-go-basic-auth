@@ -8,7 +8,7 @@ This is under active development and is not ready for production use.
 
 ## Usage
 
-The client set credentials in `Authorization` header in the following format:
+The client sets credentials in `Authorization` header in the following format:
 
 ```Plaintext
 credentials := Basic base64(username:password)
