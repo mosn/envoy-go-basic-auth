@@ -1,4 +1,4 @@
-.PHONY: build run
+.PHONY: build run test
 build:
 	docker run --rm -v $(PWD):/go/src/go-filter -w /go/src/go-filter \
 		-e GOPROXY=https://goproxy.cn \
@@ -11,6 +11,8 @@ run:
 		-p 10000:10000 \
 		-e GODEBUG=cgocheck=0 \
 		envoyproxy/envoy:contrib-v1.26-latest \
-		envoy -c /etc/envoy/envoy.yaml
+		envoy -c /etc/envoy/envoy.
+test:
+	go test ./test
 
 

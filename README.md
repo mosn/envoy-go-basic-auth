@@ -52,5 +52,5 @@ make run
 This test case is based on a local Envoy. Run it with the example config file.
 
 ```bash
-go test test/e2e_authorized_test.go test/common.go
+make test
 ```
