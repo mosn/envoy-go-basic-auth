@@ -20,7 +20,7 @@ An example of the `Authorization` header is as follows (`Zm9vOmJhcg==`, which is
 Authorization: Basic Zm9vOmJhcg==
 ```
 
-Configure your envoy.yaml to set pairs of username and password.
+Configure your [envoy.yaml](envoy.yaml) to set pairs of username and password.
 
 ```yaml
 http_filters:
