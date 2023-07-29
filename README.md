@@ -4,7 +4,7 @@ This is a simple basic auth filter for envoy written in go. Only requests that p
 
 ## Status
 
-This is under active development and is not ready for production use.
+The plugin has been completed and will be updated in the future.'
 
 ## Usage
 

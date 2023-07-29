@@ -30,4 +30,4 @@ jobs:
 
       - name: test
         run: |
-          go test ./test
+          make test
