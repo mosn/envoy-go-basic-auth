@@ -4,7 +4,7 @@ This is a simple basic auth filter for envoy written in go. Only requests that p
 
 ## Status
 
-The plugin has been completed and will be updated in the future.'
+The plugin has been completed and may be updated in the future.
 
 ## Usage
 
