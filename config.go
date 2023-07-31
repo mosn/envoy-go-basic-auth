@@ -18,6 +18,10 @@ type config struct {
 	users map[string]string
 }
 
+type rawConfig struct {
+	Users []User
+}
+
 type User struct {
 	Username string
 	Password string
@@ -34,21 +38,19 @@ func (p *parser) Parse(any *anypb.Any) (interface{}, error) {
 
 	v := configStruct.Value
 	conf := &config{}
-	var users []User
+	rc := &rawConfig{}
 
-	if userMap, ok := v.AsMap()["users"]; ok {
-		data, err := json.Marshal(userMap)
-		if err != nil {
-			return conf, err
-		}
-
-		err = json.Unmarshal(data, &users)
-		if err != nil {
-			return conf, err
-		}
-
-		conf.users = paresUser2Map(&users)
+	data, err := v.MarshalJSON()
+	if err != nil {
+		return nil, err
 	}
+
+	err = json.Unmarshal(data, rc)
+	if err != nil {
+		return nil, err
+	}
+
+	conf.users = paresUser2Map(&rc.Users)
 
 	return conf, nil
 }
