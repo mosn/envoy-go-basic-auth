@@ -11,7 +11,7 @@ run:
 		-p 10000:10000 \
 		-e GODEBUG=cgocheck=0 \
 		envoyproxy/envoy:contrib-v1.26-latest \
-		envoy -c /etc/envoy/envoy.
+		envoy -c /etc/envoy/envoy.yaml
 test:
 	go test ./test
 
